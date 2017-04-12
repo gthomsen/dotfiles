@@ -1,6 +1,6 @@
 # Greg Thomsen's Dotfiles
 This collection of configuration files has been refined to support scientific
-computing (C/MATLAB/Fortran/Python) on Linux systems, usually without graphical
+computing (C/MATLAB/shell) on Linux systems, usually without graphical
 interfaces.  Development is centered around per-project `screen` sessions
 hosting an instance of Emacs that drives development, debugging, and testing for
 it.
@@ -41,7 +41,7 @@ home directory or symbolically linking individual files/directories works.
 
 ## Cloning
 Since this repository includes other repositories as submodules (one of which,
-[align-f90](https://github.com/jannisteunissen/align-f90), uses a Github URI),
+[matlab](git://git.code.sf.net/p/matlab-emacs/src), uses a SourceForge URI),
 you'll need to either 1) recursively clone this repository or 2) fetch each of
 the submodules individually.
 
@@ -52,17 +52,7 @@ Github account via:
   $ git clone --recursive git@github.com:gthomsen/dotfiles.git
 ```
 
-While fetching each submodule can be done like so:
-
-```shell
-  $ git clone https://github.com/gthomsen/dotfiles.git
-  $ cd dotfiles
-  $ git config -f .gitmodules submodule.".emacs.d/elisp/align-f90".url \
-                  https://github.com/gthomsen/align-f90.git
-  $ for MODULE in align-f90 matlab; do \
-       git submodule update --init .emacs.d/elisp/${MODULE};
-    done
-```
+XXX: fixup submodules.
 
 ## External Software
 Several Emacs packages require external commands to function properly.  Below
@@ -72,27 +62,3 @@ are a list of external packages that should be installed for each Emacs package:
 
 * [Pandoc](http://pandoc.org/) is needed to render Markdown files into HTML for
   previews.  Optional if the mode is only used for syntax highlighting.
-
-### `flymake`
-
-* [Pyflakes](https://pypi.python.org/pypi/pyflakes) is needed to identify
-  warnings and errors in Python code.
-
-### Edit with Emacs - Chrome Plugin
-
-* [Edit with Emacs](https://chrome.google.com/webstore/detail/edit-with-emacs/ljobjlafonikaiipfkggjbhkghgicgoh) is
-  needed to interact with the `edit-server` package.  Note that once editing is
-  requested Emacs needs to have the server started (it's disabled by default)
-  via `M-x edit-server-start`.
-
-## Setup
-
-* Jedi needs a one time configuration from within Emacs before it can be used:
-
-   `M-x jedi:install-server`
-
-# Todo
-A number of things have yet to be consolidated and tested, including:
-
-* Python support.
-* LaTeX support.
