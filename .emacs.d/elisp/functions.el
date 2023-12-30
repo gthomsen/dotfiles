@@ -129,3 +129,11 @@ This checks in turn for:
         (if target
             (find-alternate-file target)))
     (error "Not visiting a file")))
+
+;; turn off whitespace-mode for the current buffer.  defined as
+;; interactive so it can be called by the user, rather than
+;; only programmatically.
+(defun turn-off-whitespace-mode ()
+  "Disable whitespace-mode in the current buffer."
+  (interactive)
+  (whitespace-mode -1))
