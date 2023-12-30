@@ -150,6 +150,15 @@
 ;; energy in these packages unless someone is *really* motivated.
 (when (fboundp 'electric-indent-mode) (electric-indent-mode -1))
 
+;; ================================== Magit ==================================
+
+;; don't highlight whitespace when we're using Magit.  commit messages, long
+;; lines in diffs, and commit metadata regularly have long lines and we don't
+;; need to have them flagged (since we can't do anything about them).
+(setq whitespace-global-modes '(not magit-log-mode
+                                    magit-revision-mode
+                                    magit-status-mode))
+
 ;; ============================ Graphical Emacs ==============================
 ;;
 ;; Configure Emacs when run outside of a terminal.  This enables inline image
