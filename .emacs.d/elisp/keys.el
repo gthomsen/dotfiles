@@ -52,6 +52,9 @@
 ;; align the current text (e.g. variable assignments aligned about a "=")
 (global-set-key (kbd "C-x M-q") 'align)
 
+;; delete whitespace to the next non-whitespace character.
+(global-set-key (kbd "C-x M-.") 'delete-whitespace-to-nonwhitespace)
+
 ;; =========================== Buffer Management =============================
 ;;
 ;; Make it easy to get to the buffer we're interested in.

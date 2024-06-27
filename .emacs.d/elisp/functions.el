@@ -119,6 +119,16 @@ This checks in turn for:
       (untabify (point-min) (point-max)))
   nil)
 
+;; delete whitespace from the current point to the first non-whitespace
+;; character.
+(defun delete-whitespace-to-nonwhitespace ()
+  "Deletes all whitespace from the point until the next non-whitespace
+   character."
+  (interactive)
+  (delete-region (point)
+                 (+ (save-excursion (skip-chars-forward " \n"))
+                    (point))))
+
 ;; visit what the symlink targets rather than clobbering the symlink
 ;; XXX: how is this different from find-file-visit-truename?
 (defun visit-target-instead ()
