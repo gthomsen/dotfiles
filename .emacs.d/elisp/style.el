@@ -155,7 +155,9 @@
 ;; don't highlight whitespace when we're using Magit.  commit messages, long
 ;; lines in diffs, and commit metadata regularly have long lines and we don't
 ;; need to have them flagged (since we can't do anything about them).
-(setq whitespace-global-modes '(not magit-log-mode
+(setq whitespace-global-modes '(not magit-diff-mode
+                                    magit-log-mode
+                                    magit-refs-mode
                                     magit-revision-mode
                                     magit-status-mode))
 
