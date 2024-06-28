@@ -95,18 +95,21 @@ $ git config --global user.email "john.doe@domain.com"
 ```
 
 ### Emacs
-The following packages need to be installed via MELPA:
-- [dockerfile-mode](https://melpa.org/#/dockerfile-mode)
-- [Magit](https://melpa.org/#/magit)
-- [markdown-mode](https://melpa.org/#/markdown-mode)
+The following packages are optional and can be installed for additional
+functionality:
 
-Launch Emacs and run the following:
+- [dockerfile-mode](https://melpa.org/#/dockerfile-mode) Mode for editing
+  Dockerfile files
+- [Magit](https://melpa.org/#/magit) Working with Git repositories
+- [markdown-mode](https://melpa.org/#/markdown-mode) Mode for editing Markdown files
+To install all of the optional packages, launch Emacs and run the following
+Lisp (`M-x :` and then paste the following):
 
+```lisp
+(progn
+  (package-refresh-contents)
+  (package-install 'dockerfile-mode)
+  (package-install 'magit)
+  (package-install 'markdown-mode))
 ```
-M-x package-refresh-contents RET
-M-x package-install RET dockerfile-mode RET
-M-x package-install RET magit RET
-M-x package-install RET markdown-mode RET
-```
 
-Restart Emacs to pick up the full configuration.

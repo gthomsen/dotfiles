@@ -36,10 +36,6 @@
       (add-to-list 'load-path arg))
       user-paths)
 
-(require 'whitespace)    ; highlight errant whitespace.
-(require 'uniquify)      ; keep buffer names unique as needed.
-(require 'comint)        ; command interpreters like Make, shell, etc.
-
 ;; some aspects of the configuration are influenced by the following top-level
 ;; parameters.
 
@@ -49,6 +45,7 @@
 
 ;; the configuration is broken down into the following categories for
 ;; ease of maintenance.
+(load-library "packages")
 (load-library "functions")
 (load-library "modes")
 (load-library "keys")
