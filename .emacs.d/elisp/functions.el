@@ -140,10 +140,45 @@ This checks in turn for:
             (find-alternate-file target)))
     (error "Not visiting a file")))
 
-;; turn off whitespace-mode for the current buffer.  defined as
-;; interactive so it can be called by the user, rather than
-;; only programmatically.
+;; turn off whitespace-mode for the current buffer.  defined as interactive so
+;; it can be called by the user, rather than only programmatically.
 (defun turn-off-whitespace-mode ()
   "Disable whitespace-mode in the current buffer."
   (interactive)
   (whitespace-mode -1))
+
+;; duplicate the current buffer and display it.  useful for creating a snapshot
+;; of a buffer that gets modified but needs to be retained without manually
+;; copying its contents.
+(defun duplicate-buffer (&optional new-buffer-name)
+  "Duplicate the current buffer, give it a new name, and displays it.  Prompts for NEW-BUFFER-NAME if not provided."
+  (interactive)
+  (unless new-buffer-name
+    (setq new-buffer-name (read-string "Duplicated buffer's name: " "")))
+  (when new-buffer-name
+    (let ((original-buffer (buffer-name))
+          (new-buffer (get-buffer-create new-buffer-name))
+          (original-point (point)))
+      (with-current-buffer new-buffer
+        (erase-buffer)
+        (insert-buffer-substring original-buffer)
+        (goto-char original-point))
+      (display-buffer new-buffer))))
+
+;; unloads/loads a feature.  this is useful when developing said feature.
+(defun reload-feature (feature-name)
+  "Unload and then load FEATURE."
+  (interactive "sFeature to reload: ")
+  (let (feature (intern feature-name))
+    (when (featurep feature)
+      (unload-feature feature t))
+    (load-library feature-name)))
+
+;; make it easier to use SSH in Emacs running in a terminal multiplexer
+;; (e.g. GNU screen).
+(defun set-ssh-socket ()
+  "Reads a value from the user and sets the SSH_AUTH_SOCK environment variable to it."
+  (interactive)
+  (let ((socket-value (read-string "SSH_AUTH_SOCK's value: " "")))
+    (if socket-value
+        (setenv "SSH_AUTH_SOCK" socket-value))))
