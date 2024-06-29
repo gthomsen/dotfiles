@@ -102,6 +102,9 @@ functionality:
   Dockerfile files
 - [Magit](https://melpa.org/#/magit) Working with Git repositories
 - [markdown-mode](https://melpa.org/#/markdown-mode) Mode for editing Markdown files
+- [tramp](https://elpa.gnu.org/packages/tramp.html) Work with remote files
+  (e.g. via SSH on remote servers, in containers, etc) as if they were local
+
 To install all of the optional packages, launch Emacs and run the following
 Lisp (`M-x :` and then paste the following):
 
@@ -110,6 +113,7 @@ Lisp (`M-x :` and then paste the following):
   (package-refresh-contents)
   (package-install 'dockerfile-mode)
   (package-install 'magit)
-  (package-install 'markdown-mode))
+  (package-install 'markdown-mode)
+  (package-install 'tramp))
 ```
 

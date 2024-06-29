@@ -364,3 +364,38 @@ display it as the source, otherwise use the current buffer."
 (require 'dockerfile-mode)
 
 (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
+
+;; ================================== Tramp ==================================
+
+;; add support for Podman containers, similar to how Docker is supported, in
+;; older versions of Tramp.  newer versions already provide this support so
+;; avoid adding (potentially) conflicting configuration.
+(with-eval-after-load 'tramp
+  (unless (assoc "podman" tramp-methods)
+    (push
+     (cons
+      "podman"
+      '((tramp-login-program "podman")
+        (tramp-login-args (("exec" "-it") ("%h") ("/bin/bash")))
+        (tramp-remote-shell "/bin/sh")
+        (tramp-remote-shell-args ("-i") ("-c"))))
+     tramp-methods)))
+
+;; wrap the Tramp's completion method so the currently running containers are
+;; available.
+(defadvice tramp-completion-handle-file-name-all-completions
+    (around dotemacs-completion-container activate)
+  "Enhance Tramp to complete Docker and Podman container names."
+  (let ((protocol (ad-get-arg 1)))
+    (if (or (equal protocol "/podman:")
+            (equal protocol "/docker:"))
+        (let* ((container-command
+                (if (equal protocol "/podman:")
+                    "podman ps | awk '$NF != \"NAMES\" { print $NF \":\" }'"
+                  "docker ps --format '{{.Names}}:'"))
+               (container-names-raw (shell-command-to-string container-command))
+               (container-names (cl-remove-if-not
+                                 #'(lambda (line) (string-match ":$" line))
+                                 (split-string container-names-raw "\n"))))
+          (setq ad-return-value container-names))
+      ad-do-it)))

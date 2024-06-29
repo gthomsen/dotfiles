@@ -10,3 +10,19 @@
 (require 'whitespace)
 (require 'uniquify)
 (require 'comint)
+
+;; the following packages should be used when they're present but aren't
+;; showstoppers if they're not.
+;;
+;;   tramp   - work with remote buffers (via SSH, in a container, via sudo) as
+;;             if they were local
+;;
+(setq optional-packages-list '('tramp))
+
+;; attempt to load each of the optional packages, ignoring any errors.
+;; configuration for these packages are made with with-eval-after-load so we can
+;; initialize a working (possibly reduced capability) environment everywhere.
+(mapc (lambda (package)
+        (ignore-errors
+          (eval `(require ,package nil t))))
+      optional-packages-list)
