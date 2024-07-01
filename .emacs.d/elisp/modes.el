@@ -403,3 +403,17 @@ display it as the source, otherwise use the current buffer."
                                  (split-string container-names-raw "\n"))))
           (setq ad-return-value container-names))
       ad-do-it)))
+
+;; ================================== gptel ==================================
+
+;; configure a local endpoint served by llama.cpp or llamafile.  only a single
+;; model is provided through this interface and the name doesn't matter as we
+;; don't get to select it.
+(with-eval-after-load 'gptel
+  (setq-default gptel-backend (gptel-make-openai
+                                "llama-cpp"
+                                :stream t
+                                :protocol "http"
+                                :host "localhost:8080"
+                                :models '("local-model"))
+                gptel-model    "local-model"))

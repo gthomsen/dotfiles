@@ -100,6 +100,8 @@ functionality:
 
 - [dockerfile-mode](https://melpa.org/#/dockerfile-mode) Mode for editing
   Dockerfile files
+- [gptel](https://melpa.org/#/gptel) Chat interface to large language models
+  (LLMs)
 - [Magit](https://melpa.org/#/magit) Working with Git repositories
 - [markdown-mode](https://melpa.org/#/markdown-mode) Mode for editing Markdown files
 - [tramp](https://elpa.gnu.org/packages/tramp.html) Work with remote files
@@ -112,6 +114,7 @@ Lisp (`M-x :` and then paste the following):
 (progn
   (package-refresh-contents)
   (package-install 'dockerfile-mode)
+  (package-install 'gptel)
   (package-install 'magit)
   (package-install 'markdown-mode)
   (package-install 'tramp))
