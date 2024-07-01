@@ -361,9 +361,9 @@ display it as the source, otherwise use the current buffer."
 ;; ================================= Dockerfile ==============================
 
 ;; add syntax highlighting to Dockerfile's.
-(require 'dockerfile-mode)
+(with-eval-after-load 'dockerfile-mode
+  (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))
 
-(add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
 
 ;; ================================== Tramp ==================================
 
