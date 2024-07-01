@@ -1,11 +1,11 @@
-;; User configuration file for Emacs.  Targets C/Matlab/Python/Fortran/Shell
-;; development, with a splash of LaTex, on terminals.
+;; User configuration file for Emacs.  Targets C/Matlab/Python/Fortran/shell
+;; development in terminals.
 ;;
-;; NOTE: This targets Emacs 23 and newer and should work with any OS that
-;;       came out after the second half of 2009.  That said, this has only
-;;       been lightly tested on Emacs 23 itself...
+;; NOTE: This targets Emacs 25.2 and newer and should work with any OS that
+;;       came out after April 2017.
+;;
 
-(let ((minver "23.1"))
+(let ((minver "25.2"))
   (when (version<= emacs-version minver)
     (error "Your Emacs is too old -- this config requires v%s or higher." minver)))
 
@@ -18,6 +18,10 @@
 (require 'package)
 (add-to-list 'package-archives
   '("melpa-stable" . "http://stable.melpa.org/packages/") t)
+
+;; explicitly initialize the package package so older versions of Emacs (25.2
+;; does it) don't cause this to be inserted at the top of the file.
+(package-initialize)
 
 ;; specify where our code and packages live.  these are all packages that
 ;; don't have packages in MELPA.
