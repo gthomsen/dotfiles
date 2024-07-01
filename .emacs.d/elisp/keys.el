@@ -33,7 +33,7 @@
 (if (fboundp 'interactive-xref-find-definitions)
       (progn (global-set-key (kbd "M-.") 'interactive-xref-find-definitions)
              (global-set-key (kbd "M-,") 'xref-find-apropos)
-             (global-set-key (kbd "M-*") 'xref-pop-marker-stack))
+             (global-set-key (kbd "M-*") 'xref-go-back))
     (progn (global-set-key (kbd "M-,") 'tags-apropos)
            (global-set-key (kbd "M-*") 'pop-tag-mark)))
 
