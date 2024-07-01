@@ -364,6 +364,10 @@ display it as the source, otherwise use the current buffer."
 (with-eval-after-load 'dockerfile-mode
   (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))
 
+;; ================================== Magit ==================================
+
+;; "No Magit, I do not want to save every buffer before using you..."
+(setq magit-save-repository-buffers nil)
 
 ;; ================================== Tramp ==================================
 
