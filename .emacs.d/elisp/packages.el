@@ -14,12 +14,15 @@
 ;; the following packages should be used when they're present but aren't
 ;; showstoppers if they're not.
 ;;
+;;   eglot   - interface to Language Server Protocol (LSP) servers to provide
+;;             a richer development environment
 ;;   gptel   - interface to a LLM chatbot
 ;;   tramp   - work with remote buffers (via SSH, in a container, via sudo) as
 ;;             if they were local
 ;;   rmsbolt - code compilation and disassembly like Compiler Explorer
 ;;
-(setq optional-packages-list '('gptel
+(setq optional-packages-list '('eglot
+                               'gptel
                                'rmsbolt
                                'tramp))
 

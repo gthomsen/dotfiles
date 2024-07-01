@@ -37,6 +37,26 @@
     (progn (global-set-key (kbd "M-,") 'tags-apropos)
            (global-set-key (kbd "M-*") 'pop-tag-mark)))
 
+;; ==================== Language Server Protocol Support =====================
+;;
+;; Use Eglot as our language server protocol (LSP) interface.  Bind several of
+;; the commonly used functions with mnemonics that are similar to other Emacs
+;; modes.
+;;
+;;     C-c h        Show documentation for the symbol at the point.
+;;     C-c r        Rename a symbol across the entire project.
+;;     C-M-i        Request completion of the symbol at the point.
+;;     M-/          Jump to a symbol's implementation.  This can be different
+;;                  than a symbol's definition (e.g. module interfaces calling
+;;                  a submodule routine in Fortran 2008).
+;;
+(with-eval-after-load 'eglot
+  (define-key eglot-mode-map (kbd "C-c h") 'eldoc)
+  (define-key eglot-mode-map (kbd "C-c i") 'eglot-code-action-organize-imports)
+  (define-key eglot-mode-map (kbd "C-c r") 'eglot-rename)
+  (define-key eglot-mode-map (kbd "C-M-i") 'completion-at-point)
+  (define-key eglot-mode-map (kbd "M-/") 'eglot-find-implementation))
+
 ;; ============================= Formatting ==================================
 ;;
 ;; Let us worry about getting ideas into the computer quickly and then have

@@ -69,6 +69,37 @@
 
 (add-hook 'f90-mode-hook 'my-f90-mode-hook)
 
+;; ======================== Language Server via Eglot ========================
+
+;; turn on Eglot when we have the appropriate language servers available.  this
+;; avoids errors if they aren't found for some reason (e.g. not installed into
+;; a Python environment, not available in a container, etc).
+(with-eval-after-load 'eglot
+
+  ;; list of mode hooks where 'eglot-ensure should be added.  we build this
+  ;; up based on the language servers available on the system.
+  (setq eglot-mode-hooks '())
+
+  ;; only use Eglot with Fortran code when fortls is available.
+  (when (locate-file "fortls" exec-path)
+    (push 'f90-mode-hook eglot-mode-hooks)
+    (push 'fortran-mode-hook eglot-mode-hooks))
+
+  ;; only use Eglot when Python LSP Server is installed.
+  ;;
+  ;; NOTE: this prevents Eglot from running when other Python LSP servers are
+  ;;       available. this is desired so there is a consistent user experience
+  ;;       provided instead of functionality (e.g. linter reports) changing
+  ;;       depending on the environment Emacs was started in.
+  ;;
+  (when (locate-file "pylsp" exec-path)
+    (push 'python-mode-hook eglot-mode-hooks))
+
+  (mapc #'(lambda (hook)
+            (add-hook hook #'eglot-ensure))
+        eglot-mode-hooks)
+)
+
 ;; ================================= GDB =====================================
 
 ;; we just want the GUD buffer when we start debugging.

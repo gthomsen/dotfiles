@@ -100,6 +100,8 @@ functionality:
 
 - [dockerfile-mode](https://melpa.org/#/dockerfile-mode) Mode for editing
   Dockerfile files
+- [eglot](https://elpa.gnu.org/packages/eglot.html) Language Server Protocol
+  (LSP) mode that interfaces with language-specific servers
 - [gptel](https://melpa.org/#/gptel) Chat interface to large language models
   (LLMs)
 - [Magit](https://melpa.org/#/magit) Working with Git repositories
@@ -115,6 +117,7 @@ Lisp (`M-x :` and then paste the following):
 (progn
   (package-refresh-contents)
   (package-install 'dockerfile-mode)
+  (package-install 'eglot)
   (package-install 'gptel)
   (package-install 'magit)
   (package-install 'markdown-mode)
@@ -122,3 +125,42 @@ Lisp (`M-x :` and then paste the following):
   (package-install 'tramp))
 ```
 
+#### Language Server Installation
+Eglot is a language-independent language server interface and requires external
+language-specific servers to perform the heavy lifting.  This configuration file
+enables Eglot when editing Fortran and Python code, but only when the
+corresponding language servers are present so as to avoid spurious warnings
+like:
+
+```
+Warning (eglot): Searching for program: No such file or directory, fortls
+```
+
+##### Fortran
+[`fortls`](https://github.com/fortran-lang/fortls) is the preferred Fortran
+language server.  This is forked from the original Fortran Language Server and
+provides active development and additional functionality and bug fixes.
+
+If one has Python installation provided by Anaconda, `fortls` can be installed
+from Conda Forge like so:
+
+``` shell
+$ conda install -c conda-forge fortls
+```
+
+##### Python
+Many Python language servers are available and supported by Eglot though the
+[Python LSP Server](https://github.com/python-lsp/python-lsp-server) is
+preferred for the number of optional dependencies it supports
+(e.g. [`pycodestyle`](https://github.com/PyCQA/pycodestyle),
+[`Pyflakes`](https://github.com/PyCQA/pyflakes),
+[`pylsp-mypy`](https://github.com/Richardk2n/pylsp-mypy), etc).
+
+Conveniently, it is included with a stock Anaconda Python distribution meaning
+that only dependencies are required to be installed.  The following enables
+type checking support via [MyPy](https://github.com/python/mypy) as well as
+faster linting via [Ruff](https://docs.astral.sh/ruff/).
+
+``` shell
+$ conda install mypy pyslp-mypy ruff
+```
