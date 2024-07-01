@@ -17,8 +17,10 @@
 ;;   gptel   - interface to a LLM chatbot
 ;;   tramp   - work with remote buffers (via SSH, in a container, via sudo) as
 ;;             if they were local
+;;   rmsbolt - code compilation and disassembly like Compiler Explorer
 ;;
 (setq optional-packages-list '('gptel
+                               'rmsbolt
                                'tramp))
 
 ;; attempt to load each of the optional packages, ignoring any errors.

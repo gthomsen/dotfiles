@@ -104,6 +104,7 @@ functionality:
   (LLMs)
 - [Magit](https://melpa.org/#/magit) Working with Git repositories
 - [markdown-mode](https://melpa.org/#/markdown-mode) Mode for editing Markdown files
+- [rmsbolt](https://melpa.org/#/rmsbolt) Local version of [Compiler Explorer](https://godbolt.org/)
 - [tramp](https://elpa.gnu.org/packages/tramp.html) Work with remote files
   (e.g. via SSH on remote servers, in containers, etc) as if they were local
 
@@ -117,6 +118,7 @@ Lisp (`M-x :` and then paste the following):
   (package-install 'gptel)
   (package-install 'magit)
   (package-install 'markdown-mode)
+  (package-install 'rmsbolt)
   (package-install 'tramp))
 ```
 
