@@ -71,7 +71,7 @@
 (column-number-mode 1)
 
 ;; show the name of the function the point is in for context.
-(which-func-mode t)
+(which-function-mode t)
 
 ;; enable highlighting matching parentheses/brackets/braces.
 (show-paren-mode t)
