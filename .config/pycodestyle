@@ -1,0 +1,12 @@
+[pycodestyle]
+max-line-length = 120
+
+; E126 - continuation line over-indented for hanging indent (aligned assignment)
+; E201, E202 - whitespace after and before parentheses
+; E221 - multiple spaces before operator (aligned assignments)
+; E241 - multiple spaces after ':' (alignment of dictionary keys)
+; E271 - multiple spaces after keyword (aligned imports)
+; E302 - expected 2 blank lines, found 1 (single empty line in between methods)
+; E302 - expected 2 blank lines, found 1 (single empty line after method/class definition)
+; W504 - line break after binary operator
+ignore = E126,E201,E202,E221,E241,E271,E302,E305,W504
