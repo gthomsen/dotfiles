@@ -130,6 +130,7 @@ CONFIG_DIRECTORIES=".bashrc.d
                     .emacs.d
                     octave"
 CONFIG_FILES=".bashrc
+              .config/pycodestyle
               .cuda-gdbinit
               .emacs
               .gdbinit
