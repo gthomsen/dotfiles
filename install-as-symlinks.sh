@@ -246,6 +246,15 @@ for CONFIG_PATH in ${CONFIG_DIRECTORIES} ${CONFIG_FILES}; do
         fi
     fi
 
+    # see if we need to create the parent directory where this file will reside.
+    # this lets us install links to individual files into configuration
+    # directories not managed by this script.
+    TARGET_DIRECTORY_PATH=`dirname "${TARGET_CONFIG_PATH}"`
+    if [ -f "${SOURCE_CONFIG_PATH}" -a ! -d "${TARGET_DIRECTORY_PATH}" ]; then
+        echo "Creating '${TARGET_DIRECTORY_PATH}'."
+        mkdir -p "${TARGET_DIRECTORY_PATH}"
+    fi
+
     echo "Installing '${CONFIG_PATH}'."
     ln -s ${SOURCE_CONFIG_PATH} ${TARGET_CONFIG_PATH}
 done
