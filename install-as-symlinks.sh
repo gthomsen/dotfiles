@@ -241,6 +241,8 @@ for CONFIG_PATH in ${CONFIG_DIRECTORIES} ${CONFIG_FILES}; do
         if [ $? -ne 0 ]; then
             echo "Failed to move '${CONFIG_PATH}' into the backup directory (${BACKUP_DIRECTORY})." >&2
             echo "Exiting so as to avoid losing user configuration." >&2
+
+            exit 1
         fi
     fi
 
