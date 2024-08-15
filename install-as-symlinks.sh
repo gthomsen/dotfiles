@@ -6,10 +6,10 @@
 
 print_usage()
 {
-    echo "Usage: $0 [-h] [<install_root>]"
+    echo "Usage: $0 [-h] [<config_root>]"
     echo
     echo "Simple installer that backs up existing user configurations in ${HOME}"
-    echo "and symbolically links configurations found beneath <install_root>.  Backups"
+    echo "and symbolically links configurations found beneath <config_root>.  Backups"
     echo "of existing configurations are made in a date-specific directory beneath"
     echo "${BASE_BACKUP_PATH} with the form:"
     echo
@@ -29,14 +29,16 @@ print_usage()
     echo
 }
 
-# takes two arguments, the type of path to check and a whitespace delimited
-# list of paths to check.  the former must be either "file" or "directory"
-# to check for paths of said type.  echoes a whitespace delimited list of
-# paths that did not exist, which is empty on success.
+# takes three arguments, the type of path to check, the location where the path
+# is relative to, and a whitespace delimited list of paths to check.  the first
+# must be either "file" or "directory" to check for paths of said type.  echoes
+# a whitespace delimited list of paths that did not exist, which is empty on
+# success.
 verify_paths()
 {
     PATH_TYPE="$1"
-    PATHS_TO_CHECK="$2"
+    BASE_PATH="$2"
+    PATHS_TO_CHECK="$3"
 
     # whitespace delimited list of paths that are missing.  this is empty
     # when all paths provided exist and are of the expected type.
@@ -49,11 +51,11 @@ verify_paths()
         # check for existence, while respecting what type of path we're
         # expecting.
         if [ "${PATH_TYPE}" = "file" ]; then
-            if [ -f "${PATH_TO_CHECK}" ]; then
+            if [ -f "${BASE_PATH}/${PATH_TO_CHECK}" ]; then
                 RESULT_FLAG="yes"
             fi
         elif [ "${PATH_TYPE}" = "directory" ]; then
-            if [ -d "${PATH_TO_CHECK}" ]; then
+            if [ -d "${BASE_PATH}/${PATH_TO_CHECK}" ]; then
                 RESULT_FLAG="yes"
             fi
         fi
@@ -160,7 +162,7 @@ if [ $# -gt 1 ]; then
     exit 1
 fi
 
-INSTALL_ROOT="$1"
+CONFIG_ROOT="$1"
 
 # assume we're installing from the current directory if the caller did not tell
 # us where to install from.
@@ -179,8 +181,8 @@ fi
 CONFIG_ROOT=`realpath -q ${CONFIG_ROOT}`
 
 # verify everything is present to install.
-MISSING_FILES=`verify_paths "file" "${CONFIG_FILES}"`
-MISSING_DIRECTORIES=`verify_paths "directory" "${CONFIG_DIRECTORIES}"`
+MISSING_FILES=`verify_paths "file" "${CONFIG_ROOT}" "${CONFIG_FILES}"`
+MISSING_DIRECTORIES=`verify_paths "directory" "${CONFIG_ROOT}" "${CONFIG_DIRECTORIES}"`
 
 if [ -n "${MISSING_FILES}" -o -n "${MISSING_DIRECTORIES}" ]; then
     echo "Aborting installation due to an incomplete configuration in ${CONFIG_ROOT}." >&2
