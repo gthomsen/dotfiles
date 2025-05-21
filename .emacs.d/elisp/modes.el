@@ -466,14 +466,20 @@ display it as the source, otherwise use the current buffer."
 
 ;; ================================== gptel ==================================
 
-;; configure a local endpoint served by llama.cpp or llamafile.  only a single
-;; model is provided through this interface and the name doesn't matter as we
-;; don't get to select it.
+;; configure a local endpoint served by Ollama.  default to a
+;; programming-optimized model.
 (with-eval-after-load 'gptel
-  (setq-default gptel-backend (gptel-make-openai
-                                "llama-cpp"
-                                :stream t
-                                :protocol "http"
-                                :host "localhost:8080"
-                                :models '("local-model"))
-                gptel-model    "local-model"))
+  (setq gptel-backend (gptel-make-ollama
+                        "ollama"
+                        :stream t
+                        :protocol "http"
+                        :host "ml:11434"
+                        :models '(deepseek-r1:32b
+                                  dolphin3:8b
+                                  gemma3:27b-it-qat
+                                  llama3.2
+                                  phi4-reasoning:14b-q8_0
+                                  qwen2.5-coder:32b
+                                  qwq))
+        gptel-model    'qwen2.5-coder:32b
+        ))
