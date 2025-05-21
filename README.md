@@ -60,7 +60,9 @@ While fetching each submodule can be done like so:
   $ cd dotfiles
   $ git config -f .gitmodules submodule.".emacs.d/elisp/align-f90".url \
                   https://github.com/gthomsen/align-f90.git
-  $ for MODULE in align-f90 matlab; do \
+  $ git config -f .gitmodules submodule.".emacs.d/elisp/align-matlab".url \
+                  https://github.com/gthomsen/align-matlab.git
+  $ for MODULE in align-f90 align-matlab matlab; do \
        git submodule update --init .emacs.d/elisp/${MODULE}; \
     done
 ```

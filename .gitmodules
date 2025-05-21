@@ -6,3 +6,6 @@
 	path = .emacs.d/elisp/matlab
 	url = git://git.code.sf.net/p/matlab-emacs/src
 	branch = master
+[submodule ".emacs.d/elisp/align-matlab"]
+	path = .emacs.d/elisp/align-matlab
+	url = https://github.com/gthomsen/align-matlab.git

@@ -210,6 +210,8 @@ display it as the source, otherwise use the current buffer."
 
 ;; ================================ MATLAB ===================================
 
+(autoload 'align-matlab-load "align-matlab" "Enable alignment in MATLAB modes." nil)
+
 (autoload 'matlab-mode  "matlab" "MATLAB editing mode." t)
 (autoload 'matlab-shell "matlab" "Interactive MATLAB mode." t)
 
@@ -218,22 +220,39 @@ display it as the source, otherwise use the current buffer."
 (when matlab-mode-p
   (add-to-list 'auto-mode-alist '("\\.m$" . matlab-mode)))
 
-;; we are perfectly capable of wrapping our own code.
-(setq matlab-auto-fill nil)
-(setq matlab-fill-code nil)
+;; set all indentation to four spaces for MATLAB code and disable "help"
+;; provided by the mode (e.g. we can wrap our code and don't need babysitting to
+;; save files constantly).  this also registers the configuration of
+;; MATLAB-specific alignment rules when matlab-mode is entered.
+(defun my-matlab-mode-hook ()
 
-;; our inferior process should not present a desktop or a splash screen.
-(setq matlab-shell-command-switches "-nodesktop -nosplash")
+  ;; turn on alignment for assignment expressions ('=').
+  (align-matlab-load)
 
-;; disable the "help" to match a file's function name to the file name.
-(setq matlab-verify-on-save-flag nil)
+  ;; we are perfectly capable of wrapping our own code.
+  (setq matlab-auto-fill nil)
+  (setq matlab-fill-code nil)
 
-;; indent Matlab code like we do most every language.
-(setq matlab-indent-level 4)
+  ;; our inferior process should not present a desktop or a splash screen.
+  (setq matlab-shell-command-switches '("-nodesktop" "-nosplash"))
 
-;; ensure that continued lines are aligned with the preceding's
-;; parentheses/brackets/braces.
-(setq matlab-align-to-paren t)
+  ;; disable the "help" to match a file's function name to the file name.
+  (setq matlab-verify-on-save-flag nil)
+
+  ;; indent Matlab code like we do most every language.
+  (setq matlab-indent-level 4)
+
+  ;; ensure that continued lines are aligned with the preceding's
+  ;; parentheses/brackets/braces.
+  (setq matlab-align-to-paren t)
+  )
+
+(add-hook 'matlab-mode-hook 'my-matlab-mode-hook)
+
+;; define default-fill-column since our vendored version of matlab-mode
+;; expects it to be set.
+(unless (boundp 'default-fill-column)
+                (setq default-fill-column fill-column))
 
 ;; ================================ Octave ===================================
 
@@ -266,10 +285,17 @@ display it as the source, otherwise use the current buffer."
 ;;       option.
 (setq inferior-octave-startup-args '("--no-gui" "-q"))
 
-;; Octave mode is, umm, less than helpful in providing knobs to configure
-;; its formatting so we fiddle with its internals to make it usable.  hence
-;; the hook to modify buffer-local variables.
+;; Octave mode is, umm, less than helpful in providing knobs to configure its
+;; formatting so we fiddle with its internals to make it usable.  hence the hook
+;; to modify buffer-local variables.  this also registers the configuration of
+;; MATLAB-specific alignment rules when octave-mode is entered.
 (defun my-octave-mode-hook ()
+
+  ;; turn on alignment for assignment expressions ('=').
+  ;;
+  ;; NOTE: despite the name,this handles both MATLAB and Octave alignment.
+  ;;
+  (align-matlab-load)
 
   ;; disable the "help" to match a file's function name to the file name.
   ;;
@@ -279,8 +305,11 @@ display it as the source, otherwise use the current buffer."
   ;;   (remove-hook 'before-save-hook 'octave-sync-function-file-names)
   (defun octave-sync-function-file-names ())
 
-  ;; match MATLAB's indentation level.
-  (setq octave-block-offset matlab-indent-level)
+  ;; match MATLAB's indentation level when it's available, otherwise default
+  ;; to four spaces.
+  (setq octave-block-offset (if (boundp 'matlab-indent-level)
+                                matlab-indent-level
+                              4))
 
   ;; override the Octave-specific comment parameters and match what we
   ;; use with MATLAB.  this aligns comments at the current indentation

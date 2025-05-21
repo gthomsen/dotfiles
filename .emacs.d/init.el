@@ -31,6 +31,7 @@
 ;;
 (setq user-paths '("~/.emacs.d/elisp"
                    "~/.emacs.d/elisp/align-f90"
+                   "~/.emacs.d/elisp/align-matlab"
                    "~/.emacs.d/elisp/matlab"))
 
 ;; add all of the user paths to the front of the search and the compatibility
@@ -45,7 +46,7 @@
 
 ;; specify whether we use matlab.el from SourceForge or octave-mode.  by
 ;; default we use what is distributed with Emacs.
-(setq matlab-mode-p nil)
+(setq matlab-mode-p t)
 
 ;; the configuration is broken down into the following categories for
 ;; ease of maintenance.
